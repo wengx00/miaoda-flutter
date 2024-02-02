@@ -54,8 +54,6 @@ class ApiRequest {
           cancelToken: cancelToken);
       final result = CommonApiResult.fromJson(response.data);
       if (result.code == 200) return result.data;
-      final context = Tools.currentContext();
-      MToast.of(context!).message(result.msg, type: MToastType.error);
       throw result;
     } catch (err) {
       final context = Tools.currentContext();

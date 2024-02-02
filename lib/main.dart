@@ -17,9 +17,7 @@ extension IndexedIterable<E> on Iterable<E> {
 }
 
 class MiaodaApp extends StatelessWidget {
-  MiaodaApp({super.key}) {
-    _userStore.initFromPrefs();
-  }
+  MiaodaApp({super.key});
 
   final _userStore = UserStore.use();
 
@@ -68,5 +66,7 @@ Future<void> main() async {
     return true;
   };
   WidgetsFlutterBinding.ensureInitialized();
+  final userStore = UserStore.use();
+  await userStore.initFromPrefs();
   runApp(MiaodaApp());
 }

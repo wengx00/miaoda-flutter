@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:miaoda/pages/login/shared/data.dart';
 
 class SmsCode extends StatefulWidget {
-  SmsCode({super.key});
+  const SmsCode({super.key});
 
   @override
   State<SmsCode> createState() => _SmsCodeState();
