@@ -43,6 +43,7 @@ abstract class _UserStore with Store {
   @action
   setToken(String? value) async {
     await JsonPrefs.set(Config.storageToken, value);
+    token = value;
   }
 
 }

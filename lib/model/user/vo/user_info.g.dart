@@ -10,7 +10,7 @@ UserInfoVO _$UserInfoVOFromJson(Map<String, dynamic> json) => UserInfoVO(
       account: json['account'] as String,
       avatar: json['avatar'] as String,
       createTime: DateTime.parse(json['createTime'] as String),
-      gender: json['gender'] as String,
+      gender: json['gender'] as String?,
       name: json['name'] as String,
       role: (json['role'] as List<dynamic>)
           .map((e) => UserRole.fromJson(e as Map<String, dynamic>))

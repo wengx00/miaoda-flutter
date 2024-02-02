@@ -21,4 +21,8 @@ class AuthApi {
         method: 'POST', data: data.toJson());
     return LoginInfoVO.fromJson(json);
   }
+
+  static Future logout() async {
+    return await _$.request('/user/auth/logout', method: 'GET');
+  }
 }

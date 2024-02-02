@@ -1,5 +1,10 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
+
+final GlobalKey<NavigatorState> rootKey = GlobalKey<NavigatorState>();
+
+
 class Config {
   static const apiBase = "https://www.ccream.cn/api";
   static const staticBase = "https://www.ccream.cn/api/static";
@@ -7,5 +12,5 @@ class Config {
   static const storageToken = 'token';
   static const storageUserInfo = 'userinfo';
 
-  static const primaryColor = Color.fromARGB(255, 79, 140, 255);
+  static const primaryColor = Color(0xff5699ff);
 }

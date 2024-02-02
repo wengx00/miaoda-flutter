@@ -43,6 +43,7 @@ dependencies:
   fluttertoast: ^8.2.4
   flutter_svg: ^2.0.9
   shimmer: ^3.0.0
+  flukit: ^3.0.1
 
 dev_dependencies:
   flutter_test:

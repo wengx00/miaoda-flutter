@@ -10,6 +10,7 @@ import 'package:miaoda/pages/login/components/sms_view.dart';
 import 'package:miaoda/pages/login/shared/data.dart';
 import 'package:miaoda/store/user/user.dart';
 import 'package:miaoda/utils/config.dart';
+import 'package:miaoda/utils/dialog.dart';
 import 'package:miaoda/utils/toast.dart';
 
 class LoginPage extends StatelessWidget {
@@ -105,20 +106,11 @@ class _LoginBodyState extends State<LoginBody> {
       // 更新全局Token状态
       await _userStore.setToken(loginInfo.token);
       // ignore: use_build_context_synchronously
-      await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("登录成功"),
-          content: Text("Token: ${loginInfo.token}"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("确定"),
-            )
-          ],
-        ),
+      await MDialog.of(context).show(
+        "Token: ${loginInfo.token}",
+        title: "登录成功",
+        cancelable: false,
+        confirmColor: CupertinoColors.activeBlue,
       );
       Navigator.of(context).pushReplacementNamed("home");
     } catch (err) {

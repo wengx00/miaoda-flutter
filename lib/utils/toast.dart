@@ -52,7 +52,7 @@ class MToast {
           color: colorMap[type],
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,

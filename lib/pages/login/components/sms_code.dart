@@ -22,6 +22,7 @@ class _SmsCodeState extends State<SmsCode> {
     _controller.addListener(() {
       _sharedData.setLoginForm(code: _controller.text);
     });
+    _focusNode.requestFocus();
   }
 
   @override

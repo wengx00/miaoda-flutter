@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:miaoda/pages/index/components/index_header.dart';
 import 'package:miaoda/pages/index/components/topic_view.dart';
@@ -60,6 +61,7 @@ class _IndexPageState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CupertinoColors.extraLightBackgroundGray,
       appBar: AppBar(
         toolbarHeight: 40,
         title: const Text(

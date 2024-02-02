@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:miaoda/components/icon_label.dart';
 import 'package:miaoda/main.dart';
 import 'package:miaoda/pages/index/index.dart';
+import 'package:miaoda/pages/person/person.dart';
+import 'package:miaoda/pages/planet/planet.dart';
 import 'package:miaoda/pages/topic.dart';
 import 'package:miaoda/store/user/user.dart';
 import 'package:miaoda/utils/config.dart';
@@ -37,6 +40,7 @@ class _EntryPageState extends State<EntryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CupertinoColors.extraLightBackgroundGray,
       floatingActionButton: SizedBox(
         width: 50,
         height: 50,
@@ -54,7 +58,7 @@ class _EntryPageState extends State<EntryPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: BottomAppBar(
-        surfaceTintColor: Colors.grey,
+        surfaceTintColor: Colors.white,
         shape: const CircularNotchedRectangle(),
         padding: EdgeInsets.zero,
         height: tabBarHeight,
@@ -67,10 +71,10 @@ class _EntryPageState extends State<EntryPage> {
         controller: _controller,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          IndexPage(),
-          TopicPage(),
-          IndexPage(),
-          IndexPage(),
+          const IndexPage(),
+          const TopicPage(),
+          const PlanetPage(),
+          PersonPage(),
         ],
       ),
     );
