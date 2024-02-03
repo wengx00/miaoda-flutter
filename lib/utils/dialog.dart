@@ -25,7 +25,7 @@ class MDialog {
     await showCupertinoDialog(
       context: currentContext!,
       builder: (context) => CupertinoAlertDialog(
-        title: Text(title ?? "提示"),
+        title: Text(title ?? "提示", style: const TextStyle(fontSize: 15),),
         content: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
@@ -40,7 +40,7 @@ class MDialog {
               confirmText ?? "确认",
               style: TextStyle(
                 color: confirmColor ?? CupertinoColors.destructiveRed,
-                fontSize: 16,
+                fontSize: 15,
               ),
             ),
             onPressed: () {
@@ -55,7 +55,7 @@ class MDialog {
                 cancelText ?? "取消",
                 style: TextStyle(
                   color: cancelColor ?? CupertinoColors.activeBlue,
-                  fontSize: 16,
+                  fontSize: 15,
                 ),
               ),
               onPressed: () {
