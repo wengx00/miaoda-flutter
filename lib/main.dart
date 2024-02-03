@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:miaoda/pages/entry.dart';
 import 'package:miaoda/pages/login/login.dart';
@@ -43,8 +44,7 @@ class MiaodaApp extends StatelessWidget {
                 ? const LoginPage()
                 : const EntryPage();
         }
-        return MaterialPageRoute(
-            builder: (context) => page, settings: settings);
+        return CupertinoPageRoute(builder: (context) => page, settings: settings);
       },
       builder: (context, child) => Overlay(
         initialEntries: [

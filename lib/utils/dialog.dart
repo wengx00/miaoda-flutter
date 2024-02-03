@@ -35,6 +35,7 @@ class MDialog {
         ),
         actions: [
           CupertinoButton(
+            padding: const EdgeInsets.all(0),
             child: Text(
               confirmText ?? "确认",
               style: TextStyle(
@@ -49,6 +50,7 @@ class MDialog {
           ),
           if (cancelable != false)
             CupertinoButton(
+              padding: const EdgeInsets.all(0),
               child: Text(
                 cancelText ?? "取消",
                 style: TextStyle(
