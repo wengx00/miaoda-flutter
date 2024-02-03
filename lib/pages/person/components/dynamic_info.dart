@@ -18,18 +18,6 @@ class _DynamicInfoState extends State<DynamicInfo> {
 
   double _nameMaxWidth = 0;
 
-  // 网络请求UserInfo
-  updateUserInfo() async {
-    final userInfo = await InfoApi.get();
-    _userStore.setUserInfo(userInfo);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    if (_userStore.userInfo == null) updateUserInfo();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -1,25 +1,73 @@
+import 'package:flukit/flukit.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:miaoda/pages/person/components/dynamic_info.dart';
+import 'package:miaoda/apis/user/info.dart';
+import 'package:miaoda/components/pull_refresh.dart';
 import 'package:miaoda/components/section_card.dart';
+import 'package:miaoda/pages/person/components/dynamic_info.dart';
 import 'package:miaoda/pages/person/components/toolbar_item.dart';
+import 'package:miaoda/store/user/user.dart';
 
-class PersonPage extends StatefulWidget {
+class PersonPage extends StatelessWidget {
   const PersonPage({super.key});
 
   @override
-  State<PersonPage> createState() => _PersonPageState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: CupertinoColors.extraLightBackgroundGray,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: CupertinoColors.extraLightBackgroundGray,
+        surfaceTintColor: Colors.transparent,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Badge(
+              isLabelVisible: false,
+              child: Icon(Icons.notifications_outlined),
+            ),
+          )
+        ],
+      ),
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
+        child: PersonContent(),
+      ),
+    );
+  }
 }
 
-class _PersonPageState extends State<PersonPage> {
-  late List<_ToolBarItem> _toolBarItems;
+class _ToolBarItem {
+  String label;
+  IconData icon;
+  Function()? action;
 
+  _ToolBarItem({required this.label, required this.icon, this.action});
+}
+
+class PersonContent extends StatefulWidget {
+  const PersonContent({super.key});
+  
+
+  @override
+  State<PersonContent> createState() => _PersonContentState();
+}
+
+class _PersonContentState extends State<PersonContent> {
+  late List<_ToolBarItem> _toolBarItems;
   late List<List<_ToolBarItem>> _usefulFeatures;
+
+  final _userStore = UserStore.use();
 
   // 前往系统设置
   _toSetting() {
     Navigator.of(context).pushNamed("setting");
+  }
+
+  // 更新UserInfo
+  Future updateUserInfo() async {
+    final userInfo = await InfoApi.get();
+    await _userStore.setUserInfo(userInfo);
   }
 
   @override
@@ -41,39 +89,17 @@ class _PersonPageState extends State<PersonPage> {
             label: "系统设置", icon: Icons.settings_outlined, action: _toSetting),
       ]
     ];
+    _contents = [
+      const DynamicInfo(),
+      const SizedBox(height: 32),
+      buildToolBar(),
+      const SizedBox(height: 16),
+      buildUsefulFeature(),
+    ];
+    if (_userStore.userInfo == null) updateUserInfo();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CupertinoColors.extraLightBackgroundGray,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: CupertinoColors.extraLightBackgroundGray,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Badge(
-              isLabelVisible: false,
-              child: Icon(Icons.notifications_outlined),
-            ),
-          )
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: [
-            const DynamicInfo(),
-            const SizedBox(height: 32),
-            buildToolBar(),
-            const SizedBox(height: 16),
-            buildUsefulFeature(),
-          ],
-        ),
-      ),
-    );
-  }
+  List<Widget> _contents = [];
 
   // 工具栏
   Widget buildToolBar() {
@@ -125,12 +151,27 @@ class _PersonPageState extends State<PersonPage> {
       ),
     );
   }
-}
 
-class _ToolBarItem {
-  String label;
-  IconData icon;
-  Function()? action;
-
-  _ToolBarItem({required this.label, required this.icon, this.action});
+  @override
+  Widget build(BuildContext context) {
+    return MPullRefreshScope(
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          shrinkWrap: true,
+          slivers: [
+            MSliverPullRefreshIndicator(
+              refreshTriggerPullDistance: 100,
+              refreshIndicatorExtent: 60,
+              onRefresh: updateUserInfo,
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => _contents[index],
+                childCount: _contents.length,
+              ),
+            ),
+          ],
+        ),
+      );
+  }
 }
