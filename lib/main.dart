@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:miaoda/pages/entry.dart';
 import 'package:miaoda/pages/login/login.dart';
 import 'package:miaoda/pages/setting/setting.dart';
@@ -44,18 +45,24 @@ class MiaodaApp extends StatelessWidget {
                 ? const LoginPage()
                 : const EntryPage();
         }
-        return CupertinoPageRoute(builder: (context) => page, settings: settings);
+        return CupertinoPageRoute(
+            builder: (context) => page, settings: settings);
       },
       builder: (context, child) => Overlay(
-        initialEntries: [
-          OverlayEntry(builder: (context) => child!)
-        ],
+        initialEntries: [OverlayEntry(builder: (context) => child!)],
       ),
     );
   }
 }
 
 Future<void> main() async {
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
+    ),
+  );
   const handler = ErrorsHandler();
   FlutterError.onError = (details) {
     FlutterError.presentError(details);

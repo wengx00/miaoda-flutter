@@ -5,9 +5,7 @@ import 'package:miaoda/pages/login/components/sms_code.dart';
 import 'package:miaoda/pages/login/shared/data.dart';
 
 class SmsView extends StatefulWidget {
-  SmsView({super.key, this.sendSMS});
-
-  final Function()? sendSMS;
+  const SmsView({super.key});
 
   @override
   State<SmsView> createState() => _SmsViewState();
@@ -19,7 +17,7 @@ class _SmsViewState extends State<SmsView> {
   Function()? getResendHandler() {
     if (_sharedData.needToWait > 0) return null;
     return () {
-      if (widget.sendSMS != null) widget.sendSMS!();
+      Navigator.of(context).pop(false);
     };
   }
 
@@ -60,13 +58,13 @@ class _SmsViewState extends State<SmsView> {
   }
 
   Widget buildResendButton() {
-    return GestureDetector(
-      onTap: getResendHandler(),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Observer(
-            builder: (context) => Text(
+    return Observer(
+      builder: (context) => GestureDetector(
+        onTap: getResendHandler(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
               "重新发送${_sharedData.needToWait == 0 ? '' : '（${_sharedData.needToWait}s）'}",
               style: TextStyle(
                 color: _sharedData.needToWait == 0
@@ -74,8 +72,8 @@ class _SmsViewState extends State<SmsView> {
                     : Colors.grey,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

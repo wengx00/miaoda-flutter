@@ -20,17 +20,10 @@ class _DynamicInfoState extends State<DynamicInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Observer(
-        builder: (context) => Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            buildInfoRow(),
-            const SizedBox(height: 20),
-            buildDataRow(),
-          ],
-        ),
+        builder: (context) => buildInfoRow(),
       ),
     );
   }
@@ -49,7 +42,7 @@ class _DynamicInfoState extends State<DynamicInfo> {
               buildAvatar(),
               const SizedBox(width: 12),
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: rowWidth),
+                constraints: BoxConstraints(maxWidth: rowWidth, maxHeight: 74),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -145,35 +138,6 @@ class _DynamicInfoState extends State<DynamicInfo> {
         style: const TextStyle(
             fontSize: 10, color: Colors.white, fontWeight: FontWeight.bold),
       ),
-    );
-  }
-
-  // 数据栏
-  Widget buildDataRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        buildDataRowItem(label: "关注", num: 20),
-        buildDataRowItem(label: "粉丝", num: 0),
-        buildDataRowItem(label: "动态", num: 245),
-        buildDataRowItem(label: "获赞", num: 232),
-      ],
-    );
-  }
-
-  // 数据栏项目
-  Widget buildDataRowItem({required String label, required int num}) {
-    return Column(
-      children: [
-        Text(
-          "$num",
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        Text(
-          label,
-          style: const TextStyle(color: Colors.grey),
-        )
-      ],
     );
   }
 }

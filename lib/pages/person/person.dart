@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:flukit/flukit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:miaoda/apis/user/info.dart';
 import 'package:miaoda/components/pull_refresh.dart';
 import 'package:miaoda/components/section_card.dart';
+import 'package:miaoda/pages/person/components/data_row.dart';
 import 'package:miaoda/pages/person/components/dynamic_info.dart';
 import 'package:miaoda/pages/person/components/toolbar_item.dart';
 import 'package:miaoda/store/user/user.dart';
@@ -17,20 +21,26 @@ class PersonPage extends StatelessWidget {
       backgroundColor: CupertinoColors.extraLightBackgroundGray,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: CupertinoColors.extraLightBackgroundGray,
+        backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
+        toolbarHeight: 45,
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Badge(
-              isLabelVisible: false,
+            padding: const EdgeInsets.all(0),
+            iconSize: 24,
+            icon: Badge(
+              isLabelVisible: true,
+              textStyle: const TextStyle(fontSize: 8),
+              label: Text("1"),
+              largeSize: 11,
               child: Icon(Icons.notifications_outlined),
             ),
           )
         ],
       ),
       body: const Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
         child: PersonContent(),
       ),
     );
@@ -47,7 +57,6 @@ class _ToolBarItem {
 
 class PersonContent extends StatefulWidget {
   const PersonContent({super.key});
-  
 
   @override
   State<PersonContent> createState() => _PersonContentState();
@@ -91,6 +100,8 @@ class _PersonContentState extends State<PersonContent> {
     ];
     _contents = [
       const DynamicInfo(),
+      const SizedBox(height: 32),
+      InfoDataRow(),
       const SizedBox(height: 32),
       buildToolBar(),
       const SizedBox(height: 16),
@@ -155,23 +166,25 @@ class _PersonContentState extends State<PersonContent> {
   @override
   Widget build(BuildContext context) {
     return MPullRefreshScope(
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-          shrinkWrap: true,
-          slivers: [
-            MSliverPullRefreshIndicator(
-              refreshTriggerPullDistance: 100,
-              refreshIndicatorExtent: 60,
-              onRefresh: updateUserInfo,
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => _contents[index],
-                childCount: _contents.length,
-              ),
-            ),
-          ],
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
         ),
-      );
+        shrinkWrap: true,
+        slivers: [
+          MSliverPullRefreshIndicator(
+            refreshTriggerPullDistance: 100,
+            refreshIndicatorExtent: 60,
+            onRefresh: updateUserInfo,
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => _contents[index],
+              childCount: _contents.length,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

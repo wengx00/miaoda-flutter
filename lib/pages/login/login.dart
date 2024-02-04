@@ -123,7 +123,7 @@ class _LoginBodyState extends State<LoginBody> {
   // 下一步
   void forward() async {
     final next = await Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => SmsView(sendSMS: sendSMS)));
+        CupertinoPageRoute(builder: (context) => const SmsView()));
     if (next == true) {
       doLogin();
     } else {
