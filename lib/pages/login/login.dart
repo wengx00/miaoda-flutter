@@ -89,13 +89,13 @@ class _LoginBodyState extends State<LoginBody> {
         validCode: value.captcha,
         phone: _phoneController.text,
       ));
+      hideLoading();
     } catch (err) {
+      hideLoading();
       // ignore: use_build_context_synchronously
       MToast.of(context).message("短信验证码发送失败", type: MToastType.error);
       _sharedData.setLoginForm(code: '');
       return false;
-    } finally {
-      hideLoading();
     }
     MToast.of(context).message("短信验证码发送成功", type: MToastType.success);
     _sharedData.startTimer();
@@ -110,6 +110,7 @@ class _LoginBodyState extends State<LoginBody> {
           LoginByPhoneDTO(code: _sharedData.code, phone: _sharedData.phone));
       // 更新全局Token状态
       await _userStore.setToken(loginInfo.token);
+      hideLoading();
       // ignore: use_build_context_synchronously
       await MDialog.of(context).show(
         "Token: ${loginInfo.token}",
@@ -118,15 +119,16 @@ class _LoginBodyState extends State<LoginBody> {
         confirmColor: CupertinoColors.activeBlue,
       );
       Navigator.of(context).pushReplacementNamed("home");
-    } finally {
+    } catch (err) {
       hideLoading();
+      MToast.of(context).message("登录失败，请重试");
     }
   }
 
   // 下一步
   void forward() async {
-    final next = await Navigator.of(context).push(
-        CupertinoPageRoute(builder: (context) => const SmsView()));
+    final next = await Navigator.of(context)
+        .push(CupertinoPageRoute(builder: (context) => const SmsView()));
     if (next == true) {
       doLogin();
     } else {

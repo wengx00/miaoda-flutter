@@ -17,8 +17,8 @@ class MLoading {
     BorderRadius? borderRadius,
     double? scale,
   }) {
-    _overlayEntry?.remove();
     Future.microtask(() {
+      _overlayEntry?.remove();
       _overlayEntry = OverlayEntry(
         builder: (context) => Positioned(
           top: 100,
@@ -49,6 +49,6 @@ class MLoading {
   }
 
   static hide() {
-    _overlayEntry?.remove();
+    Future.microtask(() { _overlayEntry?.remove(); });
   }
 }
