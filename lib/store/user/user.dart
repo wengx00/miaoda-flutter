@@ -1,4 +1,5 @@
 import 'package:miaoda/model/user/vo/user_info.dart';
+import 'package:miaoda/model/user/vo/user_statistic.dart';
 import 'package:miaoda/utils/config.dart';
 import 'package:miaoda/utils/json_prefs.dart';
 import 'package:mobx/mobx.dart';
@@ -23,18 +24,27 @@ abstract class _UserStore with Store {
   @observable
   UserInfoVO? userInfo;
 
+  @observable
+  UserStatisticVO? userStatistic;
+
   @action
   initFromPrefs() async {
     token = await JsonPrefs.get(Config.storageToken);
     final userInfoJson = await JsonPrefs.get(Config.storageUserInfo);
+    final userStatisticJson = await JsonPrefs.get(Config.storageUserStatistic);
     if (userInfoJson == null) {
       userInfo = null;
-      return;
+    } else {
+      userInfo = UserInfoVO.fromJson(userInfoJson);
     }
-    userInfo = UserInfoVO.fromJson(userInfoJson);
+    if (userStatisticJson == null) {
+      userStatistic = null;
+    } else {
+      userStatistic = UserStatisticVO.fromJson(userStatisticJson);
+    }
   }
 
-  @action 
+  @action
   setUserInfo(UserInfoVO? value) async {
     await JsonPrefs.set(Config.storageUserInfo, value?.toJson());
     userInfo = value;
@@ -46,4 +56,9 @@ abstract class _UserStore with Store {
     token = value;
   }
 
+  @action
+  setUserStatistic(UserStatisticVO value) async {
+    await JsonPrefs.set(Config.storageUserStatistic, value);
+    userStatistic = value;
+  }
 }

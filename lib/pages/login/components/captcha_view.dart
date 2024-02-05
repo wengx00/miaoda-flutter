@@ -37,6 +37,8 @@ class _CaptchaViewState extends State<CaptchaView> {
   }
 
   _initialize() async {
+    currentCaptcha = null;
+    setState(() {});
     captchaVO = await AuthApi.captcha();
     currentCaptcha = Container(
       width: 100,
@@ -113,7 +115,10 @@ class _CaptchaViewState extends State<CaptchaView> {
               ),
               const SizedBox(width: 20),
               currentCaptcha != null
-                  ? currentCaptcha!
+                  ? GestureDetector(
+                      onTap: _initialize,
+                      child: currentCaptcha!,
+                    )
                   : Shimmer.fromColors(
                       baseColor: Colors.grey[200]!,
                       highlightColor: Colors.white,

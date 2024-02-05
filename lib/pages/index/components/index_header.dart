@@ -23,17 +23,17 @@ class _IndexHeaderState extends State<IndexHeader> {
         controller: _controller,
         decoration: const InputDecoration(
             hintText: "搜索主题",
-            border: const OutlineInputBorder(borderSide: BorderSide.none),
+            border: OutlineInputBorder(borderSide: BorderSide.none),
             filled: true,
             fillColor: Colors.white,
-            suffixIcon: const Icon(
+            suffixIcon: Icon(
               Icons.search,
               size: 20,
             ),
             suffixIconConstraints:
-                const BoxConstraints(minHeight: 0, minWidth: 36),
+                BoxConstraints(minHeight: 0, minWidth: 36),
             contentPadding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                EdgeInsets.symmetric(horizontal: 8, vertical: 5),
             isCollapsed: true),
       ),
     );

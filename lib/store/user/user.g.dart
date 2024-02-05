@@ -40,6 +40,22 @@ mixin _$UserStore on _UserStore, Store {
     });
   }
 
+  late final _$userStatisticAtom =
+      Atom(name: '_UserStore.userStatistic', context: context);
+
+  @override
+  UserStatisticVO? get userStatistic {
+    _$userStatisticAtom.reportRead();
+    return super.userStatistic;
+  }
+
+  @override
+  set userStatistic(UserStatisticVO? value) {
+    _$userStatisticAtom.reportWrite(value, super.userStatistic, () {
+      super.userStatistic = value;
+    });
+  }
+
   late final _$initFromPrefsAsyncAction =
       AsyncAction('_UserStore.initFromPrefs', context: context);
 
@@ -64,11 +80,21 @@ mixin _$UserStore on _UserStore, Store {
     return _$setTokenAsyncAction.run(() => super.setToken(value));
   }
 
+  late final _$setUserStatisticAsyncAction =
+      AsyncAction('_UserStore.setUserStatistic', context: context);
+
+  @override
+  Future setUserStatistic(UserStatisticVO value) {
+    return _$setUserStatisticAsyncAction
+        .run(() => super.setUserStatistic(value));
+  }
+
   @override
   String toString() {
     return '''
 token: ${token},
-userInfo: ${userInfo}
+userInfo: ${userInfo},
+userStatistic: ${userStatistic}
     ''';
   }
 }

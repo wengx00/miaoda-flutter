@@ -5,30 +5,31 @@ part 'user_info.g.dart';
 @JsonSerializable()
 class UserInfoVO {
   ///用户账号
-  String account;
+    String account;
+    
+    ///头像
+    String avatar;
+    
+    ///注册时间
+    DateTime createTime;
+    
+    ///性别
+    String? gender;
+    
+    ///用户名
+    String name;
+    
+    ///角色组
+    List<UserRole> role;
 
-  ///头像
-  String avatar;
-
-  ///注册时间
-  DateTime createTime;
-
-  ///性别
-  String? gender;
-
-  ///用户名
-  String name;
-
-  ///角色组
-  List<UserRole> role;
-  UserInfoVO({
-    required this.account,
-    required this.avatar,
-    required this.createTime,
-    this.gender,
-    required this.name,
-    required this.role,
-  });
+    UserInfoVO({
+        required this.account,
+        required this.avatar,
+        required this.createTime,
+        this.gender,
+        required this.name,
+        required this.role,
+    });
 
   factory UserInfoVO.fromJson(Map<String, dynamic> json) =>
       _$UserInfoVOFromJson(json);

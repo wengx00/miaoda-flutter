@@ -11,6 +11,7 @@ class Config {
 
   static const storageToken = 'token';
   static const storageUserInfo = 'userinfo';
+  static const storageUserStatistic = 'user_statistic';
 
   static const primaryColor = Color(0xff5699ff);
 }

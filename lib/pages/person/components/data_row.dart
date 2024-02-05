@@ -12,10 +12,10 @@ class InfoDataRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        buildDataRowItem(label: "关注", num: 20),
-        buildDataRowItem(label: "粉丝", num: 0),
-        buildDataRowItem(label: "动态", num: 245),
-        buildDataRowItem(label: "获赞", num: 232),
+        buildDataRowItem(label: "关注", num: _userStore.userStatistic?.followCount ?? 0),
+        buildDataRowItem(label: "粉丝", num: _userStore.userStatistic?.fanCount ?? 0),
+        buildDataRowItem(label: "动态", num: _userStore.userStatistic?.postCount ?? 0),
+        buildDataRowItem(label: "获赞", num: _userStore.userStatistic?.raisedCount ?? 0),
       ],
     );
   }

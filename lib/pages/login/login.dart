@@ -11,6 +11,7 @@ import 'package:miaoda/pages/login/shared/data.dart';
 import 'package:miaoda/store/user/user.dart';
 import 'package:miaoda/utils/config.dart';
 import 'package:miaoda/utils/dialog.dart';
+import 'package:miaoda/utils/loading.dart';
 import 'package:miaoda/utils/toast.dart';
 
 class LoginPage extends StatelessWidget {
@@ -81,6 +82,7 @@ class _LoginBodyState extends State<LoginBody> {
       MToast.of(context).message("请等待${_sharedData.needToWait}秒后重试");
       return false;
     }
+    final hideLoading = MLoading.of(context).show();
     try {
       await AuthApi.sendSMS(SendSmsDTO(
         reqToken: value.reqToken,
@@ -92,6 +94,8 @@ class _LoginBodyState extends State<LoginBody> {
       MToast.of(context).message("短信验证码发送失败", type: MToastType.error);
       _sharedData.setLoginForm(code: '');
       return false;
+    } finally {
+      hideLoading();
     }
     MToast.of(context).message("短信验证码发送成功", type: MToastType.success);
     _sharedData.startTimer();
@@ -100,6 +104,7 @@ class _LoginBodyState extends State<LoginBody> {
 
   // 执行登录
   doLogin() async {
+    final hideLoading = MLoading.of(context).show();
     try {
       final loginInfo = await AuthApi.loginByPhone(
           LoginByPhoneDTO(code: _sharedData.code, phone: _sharedData.phone));
@@ -113,10 +118,8 @@ class _LoginBodyState extends State<LoginBody> {
         confirmColor: CupertinoColors.activeBlue,
       );
       Navigator.of(context).pushReplacementNamed("home");
-    } catch (err) {
-      // ignore: use_build_context_synchronously
-      MToast.of(context).message("登录失败", type: MToastType.error);
-      rethrow;
+    } finally {
+      hideLoading();
     }
   }
 

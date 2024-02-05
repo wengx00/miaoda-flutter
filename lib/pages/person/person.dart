@@ -1,12 +1,10 @@
-import 'dart:math';
-
-import 'package:flukit/flukit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:miaoda/apis/user/info.dart';
 import 'package:miaoda/components/pull_refresh.dart';
 import 'package:miaoda/components/section_card.dart';
+import 'package:miaoda/model/user/vo/user_info.dart';
+import 'package:miaoda/model/user/vo/user_statistic.dart';
 import 'package:miaoda/pages/person/components/data_row.dart';
 import 'package:miaoda/pages/person/components/dynamic_info.dart';
 import 'package:miaoda/pages/person/components/toolbar_item.dart';
@@ -17,32 +15,13 @@ class PersonPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CupertinoColors.extraLightBackgroundGray,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        toolbarHeight: 45,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            padding: const EdgeInsets.all(0),
-            iconSize: 24,
-            icon: Badge(
-              isLabelVisible: true,
-              textStyle: const TextStyle(fontSize: 8),
-              label: Text("1"),
-              largeSize: 11,
-              child: Icon(Icons.notifications_outlined),
-            ),
-          )
-        ],
-      ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        child: PersonContent(),
-      ),
+    return Container(
+      decoration:
+          const BoxDecoration(color: CupertinoColors.extraLightBackgroundGray),
+      width: double.infinity,
+      height: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: const PersonContent(),
     );
   }
 }
@@ -75,8 +54,11 @@ class _PersonContentState extends State<PersonContent> {
 
   // 更新UserInfo
   Future updateUserInfo() async {
-    final userInfo = await InfoApi.get();
-    await _userStore.setUserInfo(userInfo);
+    final result = await Future.wait([InfoApi.get(), InfoApi.statistic()]);
+    await Future.wait([
+      _userStore.setUserInfo(result[0] as UserInfoVO),
+      _userStore.setUserStatistic(result[1] as UserStatisticVO)
+    ]);
   }
 
   @override
@@ -107,7 +89,8 @@ class _PersonContentState extends State<PersonContent> {
       const SizedBox(height: 16),
       buildUsefulFeature(),
     ];
-    if (_userStore.userInfo == null) updateUserInfo();
+    if (_userStore.userInfo == null || _userStore.userStatistic == null)
+      updateUserInfo();
   }
 
   List<Widget> _contents = [];
@@ -172,6 +155,27 @@ class _PersonContentState extends State<PersonContent> {
         ),
         shrinkWrap: true,
         slivers: [
+          SliverAppBar(
+            pinned: true,
+            automaticallyImplyLeading: false,
+            backgroundColor: CupertinoColors.extraLightBackgroundGray,
+            surfaceTintColor: Colors.transparent,
+            toolbarHeight: 45,
+            actions: [
+              IconButton(
+                onPressed: () {},
+                padding: const EdgeInsets.all(0),
+                iconSize: 24,
+                icon: Badge(
+                  isLabelVisible: true,
+                  textStyle: const TextStyle(fontSize: 8),
+                  label: Text("1"),
+                  largeSize: 11,
+                  child: Icon(Icons.notifications_outlined),
+                ),
+              )
+            ],
+          ),
           MSliverPullRefreshIndicator(
             refreshTriggerPullDistance: 100,
             refreshIndicatorExtent: 60,

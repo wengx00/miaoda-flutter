@@ -4,6 +4,7 @@ import 'package:miaoda/pages/index/components/index_header.dart';
 import 'package:miaoda/pages/index/components/topic_view.dart';
 import 'package:miaoda/pages/index/models/topic.dart';
 import 'package:miaoda/utils/config.dart';
+import 'package:miaoda/utils/loading.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({super.key});
@@ -60,24 +61,20 @@ class _IndexPageState extends State<IndexPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CupertinoColors.extraLightBackgroundGray,
-      appBar: AppBar(
-        toolbarHeight: 40,
-        title: const Text(
-          "渺答星球",
-          style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        surfaceTintColor: Colors.transparent,
-        backgroundColor: Config.primaryColor,
-      ),
-      body: CustomScrollView(
+    return Container(
+      decoration: const BoxDecoration(color: CupertinoColors.extraLightBackgroundGray),
+      width: double.infinity,
+      height: double.infinity,
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         slivers: [
           const SliverAppBar(
-            floating: true,
+            pinned: true,
+            expandedHeight: 0,
+            automaticallyImplyLeading: false,
             title: IndexHeader(),
             surfaceTintColor: Colors.transparent,
-            backgroundColor: Config.primaryColor,
+            backgroundColor: CupertinoColors.extraLightBackgroundGray,
             titleSpacing: 0,
           ),
           SliverList(
